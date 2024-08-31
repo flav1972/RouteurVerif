@@ -1,3 +1,16 @@
+Changement de vitesse
+attente reponse
+nombre de donnes recues:8
+donnees recues: 0x01 0x10 0x00 0x04 0x00 0x01 0x40 0x08 
+Changement OK
+envoi requette reset
+attente reponse reset
+donnes reset recues:8
+0x01 0x10 0x00 0x0C 0x00 0x02 0x81 0xCB 
+Reset OK
+JSY-MK-194 configure a la vitesse de : 38400 bauds
+Pause 10s
+
 nb = 52
 envoi requette get data
 attente reponse get data
