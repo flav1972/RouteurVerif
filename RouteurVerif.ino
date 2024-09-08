@@ -140,7 +140,12 @@ void loop() {
   Serial.print("nb = ");
   Serial.println(nb_lectures);
 
-  if(JSY) Lecture_JSY();
+  if(JSY) {
+    Lecture_JSY();
+  }
+  else {
+    Serial.println("Pas de JSY trouvé au demarrage...");
+  }
   nb_lectures++;           // on incremente environ toutes les 5 secondes
   if(nb_lectures >= 152 ) { //150 environ 10 minutes
     nb_lectures = 0;
@@ -163,13 +168,12 @@ void Setup_JSY(int speed) {
 }
 
 int Change_JSY_Speed() {
-  for(speed_n = 0; speed_n <= speed_size; speed_n++) {
-    Serial.print("Connexion a la vitesse: ");
+  MySerial.setRxBufferSize(SER_BUF_SIZE);
+  for(speed_n = 0; speed_n < speed_size; speed_n++) {
+    Serial.print("\nConnexion a la vitesse: ");
     Serial.println(speed[speed_n]);
     MySerial.begin(speed[speed_n], SERIAL_8N1, RXD2, TXD2); //PORT DE CONNEXION AVEC LE CAPTEUR JSY-MK-194
-
-    Serial.println("Changement de vitesse");
-
+  
     int i;
     int len=11; 
 
@@ -179,9 +183,9 @@ int Change_JSY_Speed() {
     }
   
     // petit delay pour attendre la reponse (seulement 4800bauds)
-    delay(200);
-    Serial.println("attente reponse");
-
+    Serial.println("attente reponse 1 seconde");
+    delay(1000);
+    
     int a = 0;
     while (MySerial.available()) {
       ByteArray[a] = MySerial.read();
@@ -201,11 +205,13 @@ int Change_JSY_Speed() {
     // comparaison avec la reponse attendue
     if(a==8) {
       if(memcmp(ByteArray, msg_ok,8) == 0) {
-        Serial.println("Changement OK");
+        Serial.println("Changement OK\nPause 5 secondes...");
+        delay(5000);
         return(vitesse_souhaitee);
       }
     }
-    Serial.println();
+    Serial.println("Attente 5 seconde pour qu'on puisse lire...");
+    delay(5000);
   }  
   Serial.println("Communication erreur avec JSY");
   return(0);
