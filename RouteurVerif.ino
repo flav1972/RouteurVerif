@@ -98,7 +98,6 @@ void setup() {
   // initialisation bus I2C
   Wire.begin();
 
-
   Serial.println("Recherche JSY-MK-194");
   // Changement vitesse Amperemetre
   JSY = Change_JSY_Speed();                          // retour == 0 si erreur
@@ -173,7 +172,9 @@ int Change_JSY_Speed() {
     Serial.print("\nConnexion a la vitesse: ");
     Serial.println(speed[speed_n]);
     MySerial.begin(speed[speed_n], SERIAL_8N1, RXD2, TXD2); //PORT DE CONNEXION AVEC LE CAPTEUR JSY-MK-194
-  
+
+    delay(200);
+      
     int i;
     int len=11; 
 
